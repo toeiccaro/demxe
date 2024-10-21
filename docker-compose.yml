@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: hoangnguyen@dxtech.jp
+      PGADMIN_DEFAULT_PASSWORD: postgres
+    ports:
+      - "3005:80"
+    restart: always
+
+  postgres:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres  # Đặt mật khẩu cho user postgres
+      POSTGRES_DB: postgres  # Đặt tên cơ sở dữ liệu
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data  # Mount vào thư mục pgdata trong thư mục hiện tại
+    restart: always
+
+# Không cần khai báo volumes ở đây nếu bạn đã sử dụng mount trực tiếp

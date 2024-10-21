@@ -1,0 +1,14 @@
+opencv-python
+numpy
+ultralytics
+vidgear
+cvzone
+yt_dlp
+fastapi
+uvicorn
+sqlalchemy
+numpy
+opencv-python
+ultralytics
+cvzone
+vidgear
