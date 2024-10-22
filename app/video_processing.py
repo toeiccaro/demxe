@@ -20,6 +20,7 @@ class VideoProcessor:
         self.going_down = {}
         self.gnu = []
         self.gnd = []
+        self.vehicle_status = {}
 
         # Directory to save images
         self.save_dir = cam_path
@@ -63,15 +64,23 @@ class VideoProcessor:
 
         if cv2.pointPolygonTest(np.array(self.hardcoded_polylines['area1'], dtype=np.int32), (cx, cy), False) >= 0:
             self.going_up[track_id] = (cx, cy)
+            self.vehicle_status[track_id] = "up"  # Cập nhật trạng thái phương tiện
+
         if track_id in self.going_up:
             if cv2.pointPolygonTest(np.array(self.hardcoded_polylines['area2'], dtype=np.int32), (cx, cy), False) >= 0:
-                self.record_vehicle(frame, x1, y1, x2, y2, track_id, c, "up")
+                if track_id not in self.vehicle_status or self.vehicle_status[track_id] != "up":
+                    self.record_vehicle(frame, x1, y1, x2, y2, track_id, c, "up")
+                    self.vehicle_status[track_id] = "up"  # Cập nhật trạng thái sau khi lưu
 
         if cv2.pointPolygonTest(np.array(self.hardcoded_polylines['area2'], dtype=np.int32), (cx, cy), False) >= 0:
             self.going_down[track_id] = (cx, cy)
+            self.vehicle_status[track_id] = "down"  # Cập nhật trạng thái phương tiện
+
         if track_id in self.going_down:
             if cv2.pointPolygonTest(np.array(self.hardcoded_polylines['area1'], dtype=np.int32), (cx, cy), False) >= 0:
-                self.record_vehicle(frame, x1, y1, x2, y2, track_id, c, "down")
+                if track_id not in self.vehicle_status or self.vehicle_status[track_id] != "down":
+                    self.record_vehicle(frame, x1, y1, x2, y2, track_id, c, "down")
+                    self.vehicle_status[track_id] = "down"  # Cập nhật trạng thái sau khi lưu
 
     def record_vehicle(self, frame, x1, y1, x2, y2, track_id, class_name, direction):
         # Draw rectangle and text
