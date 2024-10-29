@@ -1,7 +1,7 @@
 # Run application
 ```
 
-python3 -m app.main
+uvicorn app.main:app --reload
 ```
 
 # Set up virtual env
@@ -26,7 +26,7 @@ CREATE TABLE users (
 CREATE TABLE vehicles (
     id SERIAL PRIMARY KEY,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     trackId VARCHAR(255) NOT NULL,
     direction VARCHAR(255),
     image_path VARCHAR(255)
